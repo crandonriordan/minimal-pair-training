@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bengali Minimal Pair Training</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+        />
+    </head>
+    <body>
+        <section class="section level">
+            <div class="container">
+                <h1 class="title level-item has-text-centered">
+                    Bengali Minimal Pair Training with
+                    <a
+                        rel="noreferrer noopener"
+                        target="_blank"
+                        href="https://www.acaexplorers.com/blog/hearing-the-unhearable-minimal-pair-training-immediate-feedback/"
+                    >
+                        &nbsp;Instant Feedback</a
+                    >
+                </h1>
+                <p id="app">My first website with <strong>Bulma</strong>!</p>
+                <button id="play-button" class="button is-primary">
+                    Play Audio
+                </button>
+            </div>
+        </section>
+        <section class="section level is-half has-text-centered">
+            <button id="left" class="button is-primary"></button>
+            <div
+                class="level-item correct is-hidden"
+                style="font-size: 5em; color: green"
+            >
+                ✓
+            </div>
+            <div
+                class="level-item incorrect is-hidden"
+                style="font-size: 5em; color: red"
+            >
+                X
+            </div>
+            <button id="right" class="button is-primary"></button>
+        </section>
+        <script src="./js/minimalPair.js"></script>
+    </body>
+</html>
