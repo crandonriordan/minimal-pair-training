@@ -2,12 +2,14 @@ function makeWord(written, spokenFile, translation) {
     return {
         written,
         spokenFile,
+        translation
     };
 }
 
 let chosenWord;
 let pair;
 let choiceIndex;
+let pairIndex;
 
 // 2D array pairs[i] = int[2] of Word
 const pairs = [
@@ -25,7 +27,7 @@ const pairs = [
     ],
     [
         makeWord("বাজ.mp3", "./audio/বাজ.mp3", "thunder"),
-        makeWord("চাই", "./audio/চাই.mp3", "fry"),
+        makeWord("ভাজ.mp3", "./audio/ভাজ.mp3", "fry"),
     ],
 ];
 function weightedRandom(probConfig) {
@@ -41,22 +43,55 @@ function weightedRandom(probConfig) {
 function displayChoice(pair) {
     let left = document.getElementById("left");
     let right = document.getElementById("right");
-    left.innerHTML = pair[0].written + "<-";
-    right.innerHTML = pair[1].written + "->";
+    left.innerHTML = pair[0].written + "<-\n" + pair[0].translation;
+    right.innerHTML = pair[1].written + "->\n" + pair[1].translation;
 }
 //
 document.addEventListener("readystatechange", (event) => {
     if (event.target.readyState === "complete") {
-        pair = pairs[0];
+        pairIndex = 0;
+        pair = pairs[pairIndex];
         displayChoice(pair);
     }
 });
 
 document.getElementById("play-button").addEventListener("click", () => {
+    playChosenWord();
+});
+
+document.getElementById("next-button").addEventListener("click", () => {
+    updatePair();
+});
+
+document.getElementById("left").addEventListener("click", () => {
+    selectLeft();
+});
+
+document.getElementById("right").addEventListener("click", () => {
+    selectRight();
+});
+
+function selectLeft() {
+    if (choiceIndex == 0) {
+        showCorrect();
+    } else {
+        showIncorrect();
+    }
+}
+
+function selectRight() {
+    if (choiceIndex == 1) {
+        showCorrect();
+    } else {
+        showIncorrect();
+    }
+}
+
+function playChosenWord() {
     choiceIndex = weightedRandom({ 0: 0.7, 1: 0.3 });
     chosenWord = pair[choiceIndex];
     playAudio(chosenWord);
-});
+}
 
 function playAudio(word) {
     let audio = new Audio(word.spokenFile);
@@ -81,11 +116,25 @@ addEventListener("keydown", (event) => {
     }
 });
 
+function displayAndPlay() {
+    displayChoice(pair);
+    playChosenWord();
+}
+
+function updatePair() {
+    pairIndex++;
+    if(pairIndex >= pairs.length) {
+        pairIndex = 0;
+    }
+    pair = pairs[pairIndex];
+}
+
 function showCorrect() {
     let correctEl = document.querySelector(".correct");
     correctEl.classList.remove("is-hidden");
     setTimeout(() => {
         correctEl.classList.add("is-hidden");
+        displayAndPlay();
     }, "1000");
 }
 
@@ -94,5 +143,6 @@ function showIncorrect() {
     incorrectEl.classList.remove("is-hidden");
     setTimeout(() => {
         incorrectEl.classList.add("is-hidden");
+        displayAndPlay();
     }, "1000");
 }
